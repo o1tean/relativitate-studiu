@@ -4,7 +4,7 @@ Ghid interactiv în limba română pentru recapitularea teoriei relativității 
 
 **[Deschide site-ul](https://o1tean.github.io/relativitate-studiu/)** · **[Descarcă ghidul PDF](https://o1tean.github.io/relativitate-studiu/Relativitate-ghid-de-studiu.pdf)**
 
-Site-ul include un laborator vizual pentru factorul Lorentz, contracția lungimilor, dilatarea duratelor și simultaneitate; șase lecții, fișa de formule, 16 fișe de memorie, un test cu 10 întrebări și șase probleme rezolvate. Progresul se salvează local în browser.
+Site-ul include un laborator vizual pentru factorul Lorentz, contracția lungimilor, dilatarea duratelor și simultaneitate; șase lecții, fișa de formule, 16 fișe de memorie, un test cu 10 întrebări și șase probleme rezolvate. Explicațiile animate urmăresc un tic complet al ceasului cu lumină, măsurarea simultană a unei bare și momentele a două emisii în sisteme diferite. Au controale de redare, pauză, derulare și pași; respectă preferința pentru mișcare redusă. Progresul se salvează local în browser.
 
 ## Utilizare
 
