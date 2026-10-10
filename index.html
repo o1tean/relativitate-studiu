@@ -55,7 +55,7 @@
 <div class="shell">
  <header class="topbar"><div class="breadcrumb">Fizică <span aria-hidden="true">/</span> <b>Teoria relativității restrânse</b></div><div class="topright"><span class="edition">GHID DE RECAPITULARE</span><span class="badge"><i class="dot" aria-hidden="true"></i>Învață în ritmul tău</span></div></header>
  <main id="main" tabindex="-1">
-  <div class="intro"><div><p class="eyebrow" id="view-kicker">01 / EXPLOREAZĂ RELAȚIILE</p><h1 id="view-title">Relativitatea,<br>pas cu pas.</h1><p id="view-desc">Modifică viteza și pornește explicațiile animate. Compară lungimea, timpul și simultaneitatea în două sisteme de referință.</p></div><div class="intro-sign" aria-hidden="true">γ = 1 / √(1 − β²)<small>O FORMULĂ. MULTE CONSECINȚE.</small></div></div>
+  <div class="intro"><div><p class="eyebrow" id="view-kicker">01 / EXPLOREAZĂ RELAȚIILE</p><h1 id="view-title">Relativitatea,<br>pas cu pas.</h1><p id="view-desc">Modifică viteza și pornește explicațiile animate. Explorează timpul, lungimea, simultaneitatea, compunerea vitezelor și relația energie–impuls.</p></div><div class="intro-sign" aria-hidden="true">γ = 1 / √(1 − β²)<small>O FORMULĂ. MULTE CONSECINȚE.</small></div></div>
 
   <section id="view-lab" class="view" aria-label="Laborator vizual">
    <div class="section-head"><h2><span class="section-index">A</span>Cât de repede te miști?</h2><p>β = v / c · referință: sistemul S</p></div>
@@ -73,10 +73,14 @@
      <button class="chip active" data-story="time" aria-pressed="true">Dilatarea timpului</button>
      <button class="chip" data-story="length" aria-pressed="false">Contracția lungimilor</button>
      <button class="chip" data-story="simultaneity" aria-pressed="false">Simultaneitate</button>
+     <button class="chip" data-story="velocity" aria-pressed="false">Compunerea vitezelor</button>
+     <button class="chip" data-story="energy" aria-pressed="false">Energie și impuls</button>
     </div>
     <div class="story-speed-row"><label for="story-speed" id="story-speed-label">Viteza ceasului față de S</label><input id="story-speed" type="range" min="0" max="0.99" step="0.001" value="0.6"><output id="story-speed-value" for="story-speed">0,600c</output></div>
+    <div class="story-speed-row" id="story-particle-row" hidden><label for="story-particle-speed">Viteza particulei în S′ · u′</label><input id="story-particle-speed" type="range" min="-1" max="1" step="any" value="0.8"><output id="story-particle-value" for="story-particle-speed">0,800c</output></div>
+    <p class="error" id="story-invalid" role="status" hidden>Calculatorul conține o valoare nepermisă. Alege din nou vitezele pe cursoare: |u′| ≤ c și |v| &lt; c.</p>
     <p class="story-intro" id="story-intro">Același ceas, descris în două sisteme. Un tic complet: emisie → reflexie → întoarcere.</p>
-    <div class="story-scene">
+    <div class="story-scene" id="story-scene">
      <svg id="story-time" viewBox="0 0 820 340" role="img" aria-labelledby="story-time-title story-time-desc">
       <title id="story-time-title">Un tic complet al ceasului cu lumină</title><desc id="story-time-desc">Același puls merge între oglinzi și revine. În sistemul de repaus drumul este vertical. În laborator oglinzile se deplasează și drumul este oblic. Duratele măsurate sunt 1 secundă și gamma secunde.</desc>
       <text x="30" y="28" class="story-svg-label">S′ · CEASUL ÎN REPAUS</text>
@@ -111,6 +115,30 @@
       <path id="story-sp-tick" d="M400 231V257" stroke="#93a39b"/><circle id="story-sp-event-a" cx="400" cy="240" r="6" fill="#b7c6c1"/><circle id="story-sp-event-b" cy="248" r="6" fill="#b7c6c1"/><text id="story-sp-a-label" x="400" y="215" text-anchor="middle" class="story-svg-small">A · 0 s</text><text id="story-sp-b-label" y="282" text-anchor="middle" class="story-svg-small">B · −0,750 s</text><path id="story-sp-playhead" stroke="#172c3d" stroke-width="1.5"/>
       <text x="30" y="327" class="story-svg-small" id="story-event-separation">Δx = 1 secundă-lumină pe Ox · Δt′ = −γvΔx/c²</text>
      </svg>
+     <svg id="story-velocity" viewBox="0 0 820 340" role="img" aria-labelledby="story-velocity-title story-velocity-desc" hidden>
+      <title id="story-velocity-title">Compunerea vitezelor în sistemul laboratorului</title><desc id="story-velocity-desc">Toate pozițiile folosesc același timp din S. Originea sistemului S prim merge cu v, particula cu viteza relativistă u, iar două fronturi luminoase cu plus și minus c. Un cerc punctat arată separat predicția clasică.</desc>
+      <text x="30" y="28" class="story-svg-label">POZIȚII ÎN S · ACELAȘI TIMP t</text><text id="story-velocity-clock" x="30" y="54" class="story-svg-small">t = 0,000 s</text>
+      <rect id="story-velocity-cone" y="82" height="175" fill="#dceee6" opacity=".7"/>
+      <path id="story-velocity-tracks" fill="none" stroke="#cdd8cd"/><path id="story-velocity-origin" stroke="#b7c6c1" stroke-dasharray="3 4"/>
+      <text id="story-velocity-ship-label" x="30" y="80" class="story-svg-small">Originea lui S′</text><rect id="story-velocity-ship" y="97" width="24" height="14" rx="4" fill="#172c3d"/>
+      <text id="story-velocity-particle-label" x="30" y="152" class="story-svg-small">Particula în S</text><circle id="story-velocity-particle" cy="176" r="7" fill="#087f78" stroke="#fffefb" stroke-width="2"/>
+      <text id="story-velocity-classical-label" x="30" y="224" class="story-svg-small">Predicția clasică</text><circle id="story-velocity-classical" cy="248" r="7" fill="none" stroke="#ce6246" stroke-width="2" stroke-dasharray="3 2"/>
+      <path id="story-velocity-light-fronts" stroke="#087f78" stroke-dasharray="4 4" fill="none"/><text id="story-velocity-light-left" y="282" text-anchor="middle" class="story-svg-small">−ct</text><text id="story-velocity-light-right" y="282" text-anchor="middle" class="story-svg-small">+ct</text>
+      <text id="story-velocity-inputs" x="600" y="102" class="story-svg-small">u′ = 0,800c · v = 0,600c</text><text id="story-velocity-result" x="600" y="176" class="story-svg-number">u = 0,946c</text><text id="story-velocity-classical-value" x="600" y="248" class="story-svg-small">u_cl = 1,400c</text>
+      <text id="story-velocity-formula" x="30" y="326" class="story-svg-small">u / c = (u′/c + v/c) / (1 + u′v/c²)</text>
+     </svg>
+     <svg id="story-energy" viewBox="0 0 820 340" role="img" aria-labelledby="story-energy-title story-energy-desc" hidden>
+      <title id="story-energy-title">Triunghiul energiei și impulsului</title><desc id="story-energy-desc">Pentru aceeași particulă cu masă invariantă pozitivă, catetele reprezintă pc și energia de repaus W zero, iar ipotenuza energia totală W. La creșterea vitezei, energia de repaus rămâne constantă și W pătrat este egal cu pc pătrat plus W zero pătrat.</desc>
+      <text x="30" y="28" class="story-svg-label">ACELEAȘI m₀ ȘI W₀ · m₀ &gt; 0</text><text id="story-energy-beta-value" x="30" y="57" class="story-svg-small">Viteza din acest pas: 0,000c</text>
+      <path id="story-energy-area" fill="#dceee6"/><path id="story-energy-momentum" fill="none" stroke="#ce6246" stroke-width="3"/><path id="story-energy-rest" fill="none" stroke="#93a39b" stroke-width="3"/><path id="story-energy-total" fill="none" stroke="#087f78" stroke-width="3"/><path id="story-energy-angle" fill="none" stroke="#93a39b"/>
+      <circle id="story-energy-tip" r="5" fill="#087f78" stroke="#fffefb" stroke-width="2"/>
+      <text id="story-energy-total-symbol" text-anchor="middle" class="story-svg-number">W</text><text id="story-energy-momentum-symbol" text-anchor="middle" class="story-svg-small">pc</text><text id="story-energy-rest-symbol" class="story-svg-small">W₀</text>
+      <text id="story-energy-rest-label" class="story-svg-small">Repaus · W₀</text><text id="story-energy-rest-value" class="story-svg-number">m₀c² · constantă</text>
+      <text id="story-energy-total-label" class="story-svg-small">Totală · W</text><text id="story-energy-total-value" class="story-svg-number">1,000 W₀</text>
+      <text id="story-energy-momentum-label" class="story-svg-small">Impuls × c · pc</text><text id="story-energy-momentum-value" class="story-svg-number">0,000 W₀</text>
+      <text id="story-energy-kinetic-label" class="story-svg-small">Cinetică · E_c</text><text id="story-energy-kinetic-value" class="story-svg-number">0,000 W₀</text>
+      <text id="story-energy-invariant" x="30" y="326" class="story-svg-small">W² − (pc)² = W₀²</text>
+     </svg>
     </div>
     <div class="story-explanation"><span class="story-step" id="story-step-label">PASUL 1 / 3</span><p id="story-explanation" aria-live="polite">Pulsul pleacă de la oglinda de jos. În S′, ceasul este în repaus.</p></div>
     <div class="story-controls"><button class="primary" id="story-play" aria-pressed="false">▶ Pornește</button><button class="secondary" id="story-step">Pasul următor →</button><button class="secondary" id="story-reset">Reia de la început</button><label for="story-progress">Derulează</label><input id="story-progress" type="range" min="0" max="100" step="1" value="0"><output id="story-progress-value" for="story-progress">0%</output></div>
@@ -131,7 +159,7 @@
   <section id="view-test" class="view" aria-label="Test și probleme" hidden><div class="quiz-layout"><div class="panel quiz-card" id="quiz-card"></div><aside class="panel quiz-side"><p class="eyebrow">METODA CARE LEAGĂ TOTUL</p><h3>Găsește γ.<br>Apoi găsește răspunsul.</h3><p>Din energie, durată, lungime sau masa relativistă poți ajunge la același factor Lorentz.</p><div class="route">date → γ → v</div><p>La final: γ ≥ 1, |v| &lt; c,<br>l ≤ l₀, Δt ≥ Δt₀.</p></aside></div><div class="panel practice-calculator"><div><h3>Din energia cinetică la viteză</h3><p>Introduce k = E<sub>c</sub>/W₀. Pentru m₀ &gt; 0: γ = 1 + k, apoi v/c = √(1 − 1/γ²).</p></div><div class="calc-control"><div class="field"><label for="energy-k">E<sub>c</sub> / W₀</label><input id="energy-k" type="number" min="0" step="0.1" value="1"></div><output id="energy-result" aria-live="polite">0,866c</output></div><p class="error" id="energy-error" hidden></p></div><div class="problem-area"><div class="section-head"><h2>Probleme rezolvate, pas cu pas</h2><p>Încearcă întâi singur, apoi deschide rezolvarea.</p></div><div class="problem-grid" id="problem-grid"></div></div></section>
 
   <div class="scope"><b>De confirmat pentru test</b><span>Mențiunea „teoria gravitației” și cerințele exacte sunt neclare în notițele inițiale. Acest ghid acoperă relativitatea restrânsă. Problemele din manual și de la tablă nu au fost furnizate.</span></div>
-  <footer><details><summary>Materialul de bază și verificări de conținut ↗</summary><p>Adaptat din TEST_FIZICĂ_TEORIA_RELATIVITĂȚII.md. Formulele folosesc W pentru energia totală, conform notițelor. m = γm₀ apare ca masă relativistă în convenția materialului; masa invariantă m₀ rămâne constantă.</p><ul><li><a href="https://www.aps.org/apsnews/2007/11/november-1887-michelson-uminiferous-ether" target="_blank" rel="noopener">APS — experimentul Michelson–Morley</a></li><li><a href="https://www.einstein-online.info/en/spotlight/Now/" target="_blank" rel="noopener">Max Planck Institute — simultaneitate</a></li><li><a href="https://www.einstein-online.info/en/spacetime/" target="_blank" rel="noopener">Max Planck Institute — spațiu-timp și cauzalitate</a></li><li><a href="https://atlas-public.web.cern.ch/glossary" target="_blank" rel="noopener">CERN ATLAS — masă invariantă</a></li></ul></details><span>Relativitate restrânsă · ghid de studiu</span></footer>
+  <footer><details><summary>Materialul de bază și verificări de conținut ↗</summary><p>Adaptat din TEST_FIZICĂ_TEORIA_RELATIVITĂȚII.md. Formulele folosesc W pentru energia totală, conform notițelor. m = γm₀ apare ca masă relativistă în convenția materialului; masa invariantă m₀ rămâne constantă.</p><ul><li><a href="https://www.aps.org/apsnews/2007/11/november-1887-michelson-uminiferous-ether" target="_blank" rel="noopener">APS — experimentul Michelson–Morley</a></li><li><a href="https://www.einstein-online.info/en/spotlight/Now/" target="_blank" rel="noopener">Max Planck Institute — simultaneitate</a></li><li><a href="https://www.einstein-online.info/en/spacetime/" target="_blank" rel="noopener">Max Planck Institute — spațiu-timp și cauzalitate</a></li><li><a href="https://atlas-public.web.cern.ch/glossary" target="_blank" rel="noopener">CERN ATLAS — masă invariantă</a></li><li><a href="https://www.feynmanlectures.caltech.edu/I_16.html" target="_blank" rel="noopener">Caltech / Feynman — transformarea vitezelor</a></li><li><a href="https://interactivetextbooks.tudelft.nl/classical-mechanics-and-special-relativity/content/ChXX0_FourMomentum.html" target="_blank" rel="noopener">TU Delft — relația energie–impuls</a></li></ul></details><span>Relativitate restrânsă · ghid de studiu</span></footer>
  </main>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
@@ -345,14 +373,24 @@ function showView(view,focus=false){if(!views[view])view='lab';document.querySel
 document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view,true)));
 window.addEventListener('hashchange',()=>showView(location.hash.slice(1)));
 function buildGammaGraph(){const grid=$('gamma-grid');let html='';for(let g=1;g<=7;g++){const y=210-(g-1)*28;html+=`<path d="M40 ${y}H397" stroke="#e2e6de"/><text x="21" y="${y+4}" font-size="10" fill="#5c6c74">${g}</text>`;}for(let b=0;b<=1.001;b+=.2){const x=40+b*357;html+=`<text x="${x-6}" y="229" font-size="10" fill="#5c6c74">${b===0?'0':fmt(b,1)}</text>`;}grid.innerHTML=html;let path='';for(let i=0;i<=990;i+=3){const b=i/1000;const x=40+b*357,y=210-(gamma(b)-1)*28;path+=`${i===0?'M':'L'}${x.toFixed(2)} ${y.toFixed(2)} `;}$('gamma-curve').setAttribute('d',path);$('gamma-area').setAttribute('d',`${path}L393.43 210L40 210Z`);}
-function setBeta(b){const g=gamma(b);$('speed').value=b;$('beta-value').textContent=fmt(b,2);$('actual-speed').textContent=`${fmt(b*3,2)} × 10⁸ m/s`;$('gamma-value').textContent=fmt(g);$('length-ratio').textContent=fmt(1/g);$('time-ratio').textContent=fmt(g);$('energy-ratio').textContent=fmt(g);$('kinetic-ratio').textContent=fmt(g-1);$('moving-bar').setAttribute('width',335/g);$('length-svg-label').textContent=`l = ${fmt(1/g)} m`;$('speed-arrow').style.opacity=b===0?'0':'1';const h=Math.min(100,160/Math.max(b*g,1)),dx=b*g*h,top=172-h;$('clock-height').setAttribute('d',`M40 172V${top}`);$('clock-base').setAttribute('d',`M40 172H${40+dx}`);$('clock-beam').setAttribute('d',`M40 172L${40+dx} ${top}`);$('clock-mirror').setAttribute('x',29+dx);$('clock-mirror').setAttribute('y',top-6);$('clock-duration').textContent=`În S: Δt = ${fmt(g)} s`;const x=40+b*357,y=210-(g-1)*28;$('gamma-point').setAttribute('cx',x);$('gamma-point').setAttribute('cy',y);$('gamma-guide').setAttribute('d',`M${x} 210V${y}H40`);$('gamma-insight').textContent=b===0?'În repaus: γ = 1. Lungimea și durata coincid cu valorile proprii.':`La ${fmt(b,3)}c: γ = ${fmt(g)}, iar E_c/W₀ = ${fmt(g-1)}.`;document.querySelectorAll('[data-beta]').forEach(p=>p.classList.toggle('active',Math.abs(Number(p.dataset.beta)-b)<.0005));if(story.topic!=='simultaneity')resetStory();}
+function setBeta(b){const g=gamma(b);$('speed').value=b;$('beta-value').textContent=fmt(b,2);$('actual-speed').textContent=`${fmt(b*3,2)} × 10⁸ m/s`;$('gamma-value').textContent=fmt(g);$('length-ratio').textContent=fmt(1/g);$('time-ratio').textContent=fmt(g);$('energy-ratio').textContent=fmt(g);$('kinetic-ratio').textContent=fmt(g-1);$('moving-bar').setAttribute('width',335/g);$('length-svg-label').textContent=`l = ${fmt(1/g)} m`;$('speed-arrow').style.opacity=b===0?'0':'1';const h=Math.min(100,160/Math.max(b*g,1)),dx=b*g*h,top=172-h;$('clock-height').setAttribute('d',`M40 172V${top}`);$('clock-base').setAttribute('d',`M40 172H${40+dx}`);$('clock-beam').setAttribute('d',`M40 172L${40+dx} ${top}`);$('clock-mirror').setAttribute('x',29+dx);$('clock-mirror').setAttribute('y',top-6);$('clock-duration').textContent=`În S: Δt = ${fmt(g)} s`;const x=40+b*357,y=210-(g-1)*28;$('gamma-point').setAttribute('cx',x);$('gamma-point').setAttribute('cy',y);$('gamma-guide').setAttribute('d',`M${x} 210V${y}H40`);$('gamma-insight').textContent=b===0?'În repaus: γ = 1. Lungimea și durata coincid cu valorile proprii.':`La ${fmt(b,3)}c: γ = ${fmt(g)}, iar E_c/W₀ = ${fmt(g-1)}.`;document.querySelectorAll('[data-beta]').forEach(p=>p.classList.toggle('active',Math.abs(Number(p.dataset.beta)-b)<.0005));if(['time','length','energy'].includes(story.topic))resetStory();}
 $('speed').addEventListener('input',e=>setBeta(Number(e.target.value)));document.querySelectorAll('[data-beta]').forEach(b=>b.addEventListener('click',()=>setBeta(Number(b.dataset.beta))));
 document.querySelectorAll('[data-visual]').forEach(b=>b.addEventListener('click',()=>{const clock=b.dataset.visual==='clock';$('length-visual').toggleAttribute('hidden',clock);$('length-caption').hidden=clock;$('clock-visual').toggleAttribute('hidden',!clock);$('clock-caption').hidden=!clock;document.querySelectorAll('[data-visual]').forEach(p=>{p.classList.toggle('active',p===b);p.setAttribute('aria-pressed',p===b?'true':'false');});}));
 const eventTypes={simultaneous:{dx:1,dt:0,description:'Δx = 1 secundă-lumină · Δt = 0 s'},causal:{dx:1,dt:2,description:'Δx = 1 secundă-lumină · Δt = 2 s'},spacelike:{dx:1,dt:.4,description:'Δx = 1 secundă-lumină · Δt = 0,4 s'}};
 let eventType='simultaneous';
 function updateEvents(){const b=Number($('event-speed').value),g=gamma(b),ev=eventTypes[eventType],dt=g*(ev.dt-b*ev.dx),dx=g*(ev.dx-b*ev.dt);$('event-beta').textContent=`${fmt(b,2)}c`;$('event-given').textContent=ev.description;$('event-result').textContent=`Δt′ = ${Math.abs(dt)<1e-9?'0,000':fmt(dt)} s`;$('event-result').classList.toggle('reverse',dt< -1e-9);let text=Math.abs(dt)<1e-9?'A și B sunt simultane în S′.':dt>0?'În S′, A are loc înaintea lui B.':'În S′, B are loc înaintea lui A.';text+=eventType==='causal'?' Cauza precede efectul pentru orice viteză permisă.':eventType==='spacelike'?' Separarea este de tip spațial; ordinea se poate schimba.':' Simultaneitatea depinde de sistem.';$('event-help').textContent=text;const scale=52/Math.max(Math.abs(dt),Math.abs(dx),1),x=72+dx*scale,y=85-dt*scale;$('event-b').setAttribute('cx',x);$('event-b').setAttribute('cy',y);$('event-b-label').setAttribute('x',x+8);$('event-b-label').setAttribute('y',y+4);$('event-line').setAttribute('x2',x);$('event-line').setAttribute('y2',y);if(story.topic==='simultaneity')resetStory();}
 $('event-speed').addEventListener('input',updateEvents);document.querySelectorAll('[data-event]').forEach(b=>b.addEventListener('click',()=>{eventType=b.dataset.event;document.querySelectorAll('[data-event]').forEach(p=>p.classList.toggle('active',p===b));updateEvents();}));
-function updateVelocities(){const a=$('vel-u').value,b=$('vel-v').value,u=Number(a),v=Number(b),valid=a.trim()!==''&&b.trim()!==''&&Number.isFinite(u)&&Number.isFinite(v)&&Math.abs(u)<=1&&Math.abs(v)<1;$('vel-error').hidden=valid;if(!valid){$('vel-result').textContent='—';$('vel-classical').textContent='';$('vel-error').textContent='Folosește |u′/c| ≤ 1 și |v/c| < 1. Valorile trebuie să fie numere.';return;}const result=(u+v)/(1+u*v);$('vel-result').textContent=speedText(result,Math.abs(u)===1);$('vel-classical').textContent=`Clasic: ${fmt(u+v)}c`;}
+function velocityInputs(){
+ const a=$('vel-u').value,b=$('vel-v').value,up=Number(a),v=Number(b);
+ if(a.trim()===''||b.trim()===''||!Number.isFinite(up)||!Number.isFinite(v)||Math.abs(up)>1||Math.abs(v)>=1)return null;
+ return{up,v,u:(up+v)/(1+up*v)};
+}
+function updateVelocities(){
+ const values=velocityInputs();$('vel-error').hidden=Boolean(values);
+ if(!values){$('vel-result').textContent='—';$('vel-classical').textContent='';$('vel-error').textContent='Folosește |u′/c| ≤ 1 și |v/c| < 1. Valorile trebuie să fie numere.';}
+ else{$('vel-result').textContent=speedText(values.u,Math.abs(values.up)===1);$('vel-classical').textContent=`Clasic: ${fmt(values.up+values.v)}c`;}
+ if(story.topic==='velocity')resetStory();
+}
 ['vel-u','vel-v'].forEach(id=>$(id).addEventListener('input',updateVelocities));
 let chapterIndex=0;
 function renderChapter(i){chapterIndex=i;const c=STUDY.chapters[i];$('chapter-list').innerHTML=STUDY.chapters.map((ch,j)=>`<button class="chapter-button ${i===j?'active':''}" data-chapter="${j}" ${i===j?'aria-current="true"':''}><span>${String(j+1).padStart(2,'0')}</span>${ch.title}</button>`).join('');$('lesson').innerHTML=`<p class="eyebrow">${c.kicker}</p><h2 style="margin-top:12px">${c.title}</h2>${c.body}<div class="lesson-footer"><button class="primary" id="mark-read">${state.read.includes(c.id)?'✓ Lecție parcursă':'Marchează ca parcursă'}</button><button class="secondary" id="next-chapter">${i===STUDY.chapters.length-1?'Mergi la formule →':'Următoarea lecție →'}</button><small>${i+1} / ${STUDY.chapters.length}</small></div>`;document.querySelectorAll('[data-chapter]').forEach(b=>b.addEventListener('click',()=>renderChapter(Number(b.dataset.chapter))));$('mark-read').addEventListener('click',()=>{if(!state.read.includes(c.id))state.read.push(c.id);save();$('mark-read').textContent='✓ Lecție parcursă';toast('Lecția a fost marcată ca parcursă.');});$('next-chapter').addEventListener('click',()=>{if(i<STUDY.chapters.length-1){renderChapter(i+1);$('lesson').scrollIntoView({block:'start'});}else showView('formulas',true);});}
@@ -372,6 +410,7 @@ $('energy-k').addEventListener('input',updateEnergy);
 function renderProblems(){$('problem-grid').innerHTML=STUDY.problems.map((p,i)=>`<article class="panel problem"><p class="eyebrow">EXERCIȚIUL ${String(i+1).padStart(2,'0')}</p><h3 style="margin-top:8px">${p.title}</h3><p><strong>Date:</strong> ${p.given}</p><p><strong>Cerință:</strong> ${p.goal}</p><details><summary>Vezi rezolvarea</summary><ol>${p.steps.map(s=>`<li>${s}</li>`).join('')}</ol><p class="problem-answer">${p.answer}</p></details></article>`).join('');}
 const reducedStoryMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 const story={topic:'time',progress:0,running:false,frame:0,lastTime:0};
+const storySpeed=n=>Math.abs(n)>.9995&&Math.abs(n)<1?`${n<0?'−':''}≈ c`:`${fmt(n)}c`;
 function pauseStory(){
  story.running=false;cancelAnimationFrame(story.frame);story.frame=0;
  $('story-play').textContent=story.progress>=1?'↻ Redă din nou':'▶ Pornește';
@@ -380,12 +419,23 @@ function pauseStory(){
 function resetStory(){pauseStory();story.progress=0;drawStory();}
 function drawStory(){
  const narrow=window.matchMedia('(max-width: 650px)').matches;
- for(const topic of ['time','length','simultaneity'])$(`story-${topic}`).setAttribute('viewBox',narrow?'0 0 430 340':'0 0 820 340');
- const p=story.progress,b=Number($(story.topic==='simultaneity'?'event-speed':'speed').value),g=gamma(b);
- const speed=$('story-speed');speed.min=story.topic==='simultaneity'?-.9:0;speed.max=story.topic==='simultaneity'?.9:.99;speed.step=story.topic==='simultaneity'?.01:.001;speed.value=b;
- $('story-speed-value').textContent=`${fmt(b)}c`;
- $('story-speed-label').textContent=story.topic==='time'?'Viteza ceasului față de S':story.topic==='length'?'Viteza barei față de S':'Viteza sistemului S′ față de S';
+ for(const topic of ['time','length','simultaneity','velocity','energy'])$(`story-${topic}`).setAttribute('viewBox',narrow?`0 0 430 ${topic==='velocity'?390:topic==='energy'?455:340}`:'0 0 820 340');
+ const velocity=story.topic==='velocity'?velocityInputs():null,invalid=story.topic==='velocity'&&!velocity;
+ $('story-particle-row').hidden=story.topic!=='velocity';$('story-invalid').hidden=!invalid;$('story-scene').hidden=invalid;
+ $('story-play').disabled=reducedStoryMotion.matches||invalid;$('story-step').disabled=invalid;
+ const p=story.progress,speed=$('story-speed');
+ $('story-speed-label').textContent=story.topic==='time'?'Viteza ceasului față de S':story.topic==='length'?'Viteza barei față de S':story.topic==='energy'?'Viteza finală a particulei în S':'Viteza sistemului S′ față de S';
  $('story-progress').value=p*100;$('story-progress-value').textContent=`${Math.round(p*100)}%`;
+ if(invalid){
+  speed.min=-.99;speed.max=.99;speed.step='any';
+  $('story-speed-value').textContent='—';$('story-particle-value').textContent='—';$('story-step-label').textContent='VERIFICĂ VITEZELE';
+  $('story-explanation').textContent='Folosește |u′/c| ≤ 1 și |v/c| < 1. Alege din nou vitezele pe cursoare sau corectează valorile din calculator.';return;
+ }
+ const b=velocity?velocity.v:Number($(story.topic==='simultaneity'?'event-speed':'speed').value),g=gamma(b);
+ const limit=velocity?Math.max(.99,Math.abs(b)):story.topic==='simultaneity'?.9:.99;
+ speed.min=velocity||story.topic==='simultaneity'?-limit:0;speed.max=limit;speed.step=velocity?'any':story.topic==='simultaneity'?.01:.001;speed.value=b;
+ if(velocity){$('story-particle-speed').value=velocity.up;$('story-particle-value').textContent=storySpeed(velocity.up);}
+ $('story-speed-value').textContent=storySpeed(b);
  let phase,text;
  if(story.topic==='time'){
   const unit=Math.min(narrow?120:140,(narrow?160:440)/Math.max(b*g,1)),height=unit/2,x=80+b*g*p*unit,y=Math.min(p,1-p)*unit;
@@ -420,7 +470,7 @@ function drawStory(){
   $('story-measure-note').textContent=sampled?(narrow?'Măsurare simultană în S: Δt = 0.':'Ambele capete sunt măsurate simultan: Δt = 0 în S.'):(narrow?'Mișcare uniformă; măsurăm la pasul 3.':'Bara se deplasează uniform. La pasul 3 fixăm un singur moment în S.');
   phase=p<.25?1:p<.75?2:3;
   text=phase===1?'În sistemul S′, bara stă pe loc. Lungimea proprie este l₀ = 1 m.':phase===2?(b===0?'Bara este în repaus și în S. Lungimea măsurată este aceeași: l = l₀.':`În S, bara se deplasează cu ${fmt(b)}c. Lățimea ei desenată rămâne constantă pe tot parcursul acestei mișcări.`):`Fixăm același moment în S și măsurăm ambele capete: l = x₂ − x₁ = l₀/γ = ${fmt(1/g)} m. ${b===0?'La repaus, l = l₀.':'Contracția afectează direcția mișcării; bara nu este presată.'}`;
- }else{
+ }else if(story.topic==='simultaneity'){
   const center=narrow?210:400,axisLeft=narrow?50:120,axisRight=narrow?370:700;
   const dt=-g*b,scale=(narrow?120:225)/Math.max(Math.abs(dt),1),padding=.35+Math.abs(dt)*.15;
   const from=Math.min(dt,0)-padding,to=Math.max(dt,0)+padding,t=from+(to-from)*p;
@@ -440,6 +490,50 @@ function drawStory(){
   $('story-sp-b-label').setAttribute('x',bx);$('story-sp-b-label').textContent=`B · ${Math.abs(dt)<1e-9?'0,000':fmt(dt)} s`;
   phase=t<Math.min(dt,0)?1:t<Math.max(dt,0)?2:3;
   text=phase===1?'A și B sunt două emisii separate pe Ox, cu Δx = 1 secundă-lumină. În S, ambele se produc la t = 0.':phase===2?`${dt<0?'În S′, emisia B este înregistrată înaintea emisiei A.':'În S′, emisia A este înregistrată înaintea emisiei B.'} Comparăm momentele evenimentelor, nu sosirea luminii la un observator.`:Math.abs(dt)<1e-9?'La v = 0, A și B rămân simultane în ambele sisteme.':`În S: simultan. În S′: ${dt<0?'B înaintea lui A':'A înaintea lui B'}, cu Δt′ = ${fmt(dt)} s. Simultaneitatea depinde de sistemul de referință.`;
+ }else if(story.topic==='velocity'){
+  const {up,v,u}=velocity,center=narrow?215:310,scale=narrow?80:130,left=center-p*scale,right=center+p*scale;
+  const ship=center+v*p*scale,particle=center+u*p*scale,classical=center+(up+v)*p*scale;
+  const svg=$('story-velocity');svg.dataset.up=up;svg.dataset.v=v;svg.dataset.u=u;
+  $('story-velocity-clock').textContent=`t = ${fmt(p)} s · x în secunde-lumină`;
+  $('story-velocity-cone').setAttribute('x',left);$('story-velocity-cone').setAttribute('width',right-left);
+  $('story-velocity-tracks').setAttribute('d',`M30 104H${narrow?400:565}M30 176H${narrow?400:565}M30 248H${narrow?400:565}`);
+  $('story-velocity-origin').setAttribute('d',`M${center} 82V257`);
+  $('story-velocity-light-fronts').setAttribute('d',`M${left} 82V257M${right} 82V257`);
+  $('story-velocity-light-left').setAttribute('x',left-12);$('story-velocity-light-right').setAttribute('x',right+12);
+  $('story-velocity-ship').setAttribute('x',ship-12);$('story-velocity-particle').setAttribute('cx',particle);$('story-velocity-classical').setAttribute('cx',classical);
+  $('story-velocity-ship-label').textContent=`Originea lui S′ · v = ${storySpeed(v)}`;
+  $('story-velocity-particle-label').textContent=narrow?`Particula în S · ${speedText(u,Math.abs(up)===1)}`:'Particula în S · compunere relativistă';
+  $('story-velocity-classical-label').textContent=narrow?`Predicție clasică · ${fmt(up+v)}c`:'Predicția clasică · aproximație';
+  $('story-velocity-inputs').setAttribute('x',narrow?30:600);$('story-velocity-inputs').setAttribute('y',narrow?314:102);$('story-velocity-inputs').textContent=`u′ = ${storySpeed(up)} · v = ${storySpeed(v)}`;
+  $('story-velocity-result').setAttribute('x',narrow?30:600);$('story-velocity-result').setAttribute('y',narrow?347:176);$('story-velocity-result').textContent=`u = ${speedText(u,Math.abs(up)===1)}`;
+  $('story-velocity-classical-value').toggleAttribute('hidden',narrow);$('story-velocity-classical-value').textContent=`u_cl = ${fmt(up+v)}c`;
+  $('story-velocity-formula').setAttribute('y',narrow?378:326);$('story-velocity-formula').textContent=narrow?'u = (u′ + v) / (1 + u′v/c²)':'u / c = (u′/c + v/c) / (1 + u′v/c²)';
+  phase=p<.25?1:p<1?2:3;
+  text=phase===1?'Nava definește S′. v este viteza navei în S; u′ este viteza particulei în navă.':phase===2?'Toate pozițiile folosesc același timp t din S. Fronturile de lumină se deplasează cu ±c; cercul punctat arată predicția clasică.':`În S: u = (u′ + v)/(1 + u′v/c²) = ${speedText(u,Math.abs(up)===1)}. ${Math.abs(up)===1?'Lumina păstrează viteza c și sensul ales.':Math.abs(u)<1e-12?'Vitezele se compensează: particula stă pe loc în S.':'Modulul vitezei particulei rămâne sub c.'} Numitorul apare fiindcă și timpul se transformă.`;
+ }else if(story.topic==='energy'){
+  const beta=p*b,total=gamma(beta),momentum=total*beta,kinetic=total-1;
+  const unit=Math.min(narrow?125:135,(narrow?270:360)/g),origin=narrow?55:70,bottom=narrow?205:270,end=origin+momentum*unit,top=bottom-unit;
+  const svg=$('story-energy');svg.dataset.beta=beta;svg.dataset.total=total;svg.dataset.momentum=momentum;svg.dataset.kinetic=kinetic;
+  $('story-energy-beta-value').textContent=`Viteza din acest pas: ${fmt(beta)}c`;
+  $('story-energy-area').setAttribute('d',`M${origin} ${bottom}H${end}V${top}Z`);
+  $('story-energy-momentum').setAttribute('d',`M${origin} ${bottom}H${end}`);
+  $('story-energy-rest').setAttribute('d',`M${end} ${bottom}V${top}`);
+  $('story-energy-total').setAttribute('d',`M${origin} ${bottom}L${end} ${top}`);
+  $('story-energy-angle').setAttribute('d',momentum*unit>12?`M${end-10} ${bottom}V${bottom-10}H${end}`:'');
+  $('story-energy-tip').setAttribute('cx',end);$('story-energy-tip').setAttribute('cy',top);
+  $('story-energy-total-symbol').setAttribute('x',(origin+end)/2-16);$('story-energy-total-symbol').setAttribute('y',(bottom+top)/2-12);
+  $('story-energy-momentum-symbol').setAttribute('x',(origin+end)/2);$('story-energy-momentum-symbol').setAttribute('y',bottom+28);
+  $('story-energy-rest-symbol').setAttribute('x',end+18);$('story-energy-rest-symbol').setAttribute('y',(bottom+top)/2+5);
+  for(const [i,key] of ['rest','total','momentum','kinetic'].entries()){
+   const x=narrow?(i%2?225:30):530,y=narrow?(i<2?274:350):84+i*65;
+   $(`story-energy-${key}-label`).setAttribute('x',x);$(`story-energy-${key}-label`).setAttribute('y',y);
+   $(`story-energy-${key}-value`).setAttribute('x',x);$(`story-energy-${key}-value`).setAttribute('y',y+29);
+  }
+  $('story-energy-rest-value').textContent=narrow?'m₀c²':'m₀c² · constantă';
+  $('story-energy-total-value').textContent=`${fmt(total)} W₀`;$('story-energy-momentum-value').textContent=`${fmt(momentum)} W₀`;$('story-energy-kinetic-value').textContent=`${fmt(kinetic)} W₀`;
+  $('story-energy-invariant').setAttribute('y',narrow?434:326);
+  phase=p<.25?1:p<1?2:3;
+  text=b===0||p===0?'În repaus: p = 0, W = W₀ = m₀c² și E_c = 0. Energia de repaus rămâne constantă.':phase===1?'Pornim din repaus, unde W = W₀, apoi creștem viteza. Energia de repaus rămâne constantă.':phase===2?'Parcurgem stări cu viteze tot mai mari. Cresc impulsul p și energia totală W; masa invariantă m₀ rămâne aceeași.':`W² = (pc)² + W₀²: W este ipotenuza, pc și W₀ sunt catetele. Energia cinetică este E_c = W − W₀ = ${fmt(g-1)} W₀; energia totală nu este W₀ + pc.`;
  }
  $('story-step-label').textContent=`PASUL ${phase} / 3`;
  // Announce only a changed explanation, not every animation frame.
@@ -456,28 +550,30 @@ $('story-play').addEventListener('click',()=>{
  story.running=true;story.lastTime=performance.now();$('story-play').textContent='Ⅱ Pauză';$('story-play').setAttribute('aria-pressed','true');story.frame=requestAnimationFrame(advanceStory);
 });
 $('story-step').addEventListener('click',()=>{
- pauseStory();const steps=story.topic==='length'?[0,.5,.75,1]:story.topic==='time'?[0,.5,1]:[0,.5,1];
+ pauseStory();const steps=story.topic==='length'?[0,.5,.75,1]:[0,.5,1];
  story.progress=steps.find(p=>p>story.progress+.001)??0;drawStory();
 });
 $('story-reset').addEventListener('click',resetStory);
 $('story-progress').addEventListener('input',e=>{pauseStory();story.progress=Number(e.target.value)/100;drawStory();});
 $('story-speed').addEventListener('input',e=>{
- if(story.topic==='simultaneity'){$('event-speed').value=e.target.value;updateEvents();}else setBeta(Number(e.target.value));
+ if(story.topic==='simultaneity'){$('event-speed').value=e.target.value;updateEvents();}
+ else if(story.topic==='velocity'){const limit=Number(e.target.max);$('vel-v').value=Math.max(-limit,Math.min(limit,Number(Number(e.target.value).toFixed(3))));updateVelocities();}
+ else setBeta(Number(e.target.value));
 });
+$('story-particle-speed').addEventListener('input',e=>{$('vel-u').value=Number(e.target.value).toFixed(3);updateVelocities();});
 document.querySelectorAll('[data-story]').forEach(button=>button.addEventListener('click',()=>{
  story.topic=button.dataset.story;
  document.querySelectorAll('[data-story]').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',b===button?'true':'false');});
- for(const topic of ['time','length','simultaneity'])$(`story-${topic}`).toggleAttribute('hidden',topic!==story.topic);
- $('story-intro').textContent=story.topic==='time'?'Același ceas, descris în două sisteme. Un tic complet: emisie → reflexie → întoarcere.':story.topic==='length'?'O bară paralelă cu mișcarea. Compară lungimea proprie cu o măsurare simultană a capetelor în S.':'A și B sunt simultane în S și separate pe Ox. Derulează momentele lor înregistrate în cele două sisteme.';
- $('story-footnote').textContent=story.topic==='time'?'Același ciclu este redat lent, cu progres normalizat. Duratele fizice sunt indicate de ceasuri. Scara desenului se adaptează la viteză; distanța dintre oglinzi este aceeași în cele două sisteme.':story.topic==='length'?'Animația compară măsurători în două sisteme; schimbarea vitezei începe o comparație nouă. Nu reprezintă o comprimare mecanică.':'Axele reprezintă momentele evenimentelor, nu deplasarea semnalelor. Această animație păstrează Δt = 0 în S, indiferent de exemplul selectat în diagrama de mai jos.';
+ for(const topic of ['time','length','simultaneity','velocity','energy'])$(`story-${topic}`).toggleAttribute('hidden',topic!==story.topic);
+ $('story-intro').textContent=story.topic==='time'?'Același ceas, descris în două sisteme. Un tic complet: emisie → reflexie → întoarcere.':story.topic==='length'?'O bară paralelă cu mișcarea. Compară lungimea proprie cu o măsurare simultană a capetelor în S.':story.topic==='simultaneity'?'A și B sunt simultane în S și separate pe Ox. Derulează momentele lor înregistrate în cele două sisteme.':story.topic==='velocity'?'O navă și o particulă, pe aceeași axă. Alege vitezele semnate; u′ = ±c permite să urmărești și lumina.':'Un triunghi pentru W² = (pc)² + W₀². Pornește din repaus și urmărește aceeași particulă până la viteza aleasă.';
+ $('story-footnote').textContent=story.topic==='time'?'Același ciclu este redat lent, cu progres normalizat. Duratele fizice sunt indicate de ceasuri. Scara desenului se adaptează la viteză; distanța dintre oglinzi este aceeași în cele două sisteme.':story.topic==='length'?'Animația compară măsurători în două sisteme; schimbarea vitezei începe o comparație nouă. Nu reprezintă o comprimare mecanică.':story.topic==='simultaneity'?'Axele reprezintă momentele evenimentelor, nu deplasarea semnalelor. Această animație păstrează Δt = 0 în S, indiferent de exemplul selectat în diagrama de mai jos.':story.topic==='velocity'?'Zona verde este între fronturile luminoase x = ±ct. u′ + v este predicția clasică, o aproximație pentru viteze mici. Desenul folosește un singur sistem, S, și un timp de redare normalizat.':'p este modulul impulsului; toate laturile au unități de energie și aceeași scară. Scara se adaptează doar la viteza finală. Derularea compară stări, fără a prescrie accelerarea. Pentru foton: W₀ = 0 și W = |p|c; rapoartele la W₀ nu se aplică.';
  resetStory();
 }));
-function applyStoryMotionPreference(){if(reducedStoryMotion.matches)pauseStory();$('story-play').disabled=reducedStoryMotion.matches;$('story-reduced').hidden=!reducedStoryMotion.matches;}
+function applyStoryMotionPreference(){if(reducedStoryMotion.matches)pauseStory();$('story-reduced').hidden=!reducedStoryMotion.matches;drawStory();}
 reducedStoryMotion.addEventListener('change',applyStoryMotionPreference);applyStoryMotionPreference();
 window.addEventListener('resize',()=>{pauseStory();drawStory();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseStory();});
 new IntersectionObserver(entries=>{if(!entries[0].isIntersecting)pauseStory();}).observe($('animated-explanations'));
-
 buildGammaGraph();setBeta(.6);updateEvents();updateVelocities();renderChapter(0);renderFormulas();renderFlash();renderQuiz();updateEnergy();renderProblems();updateProgress();showView(location.hash.slice(1)||'lab');
 </script>
 </body>
